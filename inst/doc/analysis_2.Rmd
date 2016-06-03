@@ -1,0 +1,140 @@
+---
+title: "Threat and Demography Scores, Analysis 2"
+author: "Jacob Malcom, Whitney Webber, Ya-Wei Li"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(ggthemes)
+library(ICC)
+library(pastecs)
+library(threatdemog)
+library(viridis)
+```
+
+## Applying the key to a (large-ish) set of species
+
+### Florida species in general
+
+First, a naive model that assumes the response variable is the threat or demography score, even though this _implies_ causality flows the opposite direction.
+
+```{r echo=TRUE}
+summary_all <- stat.desc(FL_all)
+summary_all <- t(summary_all[c(1,3,4,5,8:11,13), c(-4,-1)])
+summary_all <- data.frame(summary_all)
+names(summary_all) <- c("n", "N/A", "min", "max", "median", "mean", "s.e.", 
+                        "95% CI", "s.d.")
+summary_all
+
+```
+
+On average, the threats have worsened and demographic status has declined for these 54 Florida species. Most of these species are not recommended for a status change, but we can compare the tallies of recommendation by score:
+
+```{r echo = FALSE}
+cat("Threat scores:\n")
+tapply(FL_all$Threat,
+       INDEX = FL_all$Recommendation,
+       FUN = mean, na.rm = T)
+table(FL_all$Threat, FL_all$Recommendation)
+
+cat("Demography scores:\n")
+tapply(FL_all$Demography,
+       INDEX = FL_all$Recommendation,
+       FUN = mean, na.rm = T)
+table(FL_all$Demography, FL_all$Recommendation)
+```
+
+Although 'threats' and 'demography' are fundamentally different, they are related (threat changes cause demographic changes...and in some cases, demographic changes can introduce or make relevant new threats):
+
+```{r echo = FALSE}
+cat("Correlation between threat and demography scores:\n")
+cor.test(FL_all$Threat, FL_all$Demography, use = "complete")
+```
+
+We can also view the threat and demographic scores as a scatterplot:
+
+```{r echo = FALSE}
+ggplot(data = FL_all, aes(x = Threat, y = Demography)) +
+    geom_jitter(height = 0.2, width = 0.2, size = 4, alpha = 0.3) +
+    geom_vline(xintercept = 0, color = "red", alpha = 0.5) +
+    geom_hline(yintercept = 0, color = "red", alpha = 0.5) +
+    theme_hc()
+```
+
+These results are discussed in greater detail in the paper.
+
+------------
+
+### Repeatability of scoring
+
+We would like to know the extent to which different people read the same information and arrive at different scores. Four additional people scored a random selection of ten of the Florida species, using the same 5-yr reviews and/or Federal Register documents. First, the summaries of the threat and demography scores:
+
+```{r echo = FALSE}
+summary_mult <- stat.desc(multi)
+summary_mult <- t(summary_mult[c(1,3,4,5,8:11,13),c(-2,-1)])
+summary_mult <- data.frame(summary_mult)
+names(summary_mult) <- c("n", "N/A", "min", "max", "median", "mean", "s.e.", 
+                        "95% CI", "s.d.")
+summary_mult
+```
+
+Across five scorers, these then species have negative threat scores and demographic scores are trending negative. We now want to test for observer effects. First, for threat scores:
+
+```{r echo = TRUE}
+th_m1 <- lm(Threat ~ Person + Species, data = multi)
+anova(th_m1)
+summary(th_m1)
+qplot(resid(th_m1), 
+      geom = "histogram", 
+      xlab = "Residuals",
+      bins = 5) + theme_hc()
+
+ICC_thr <- ICCest(x = Species, y = Threat, data = multi)
+ICC_thr
+```
+
+The threat scores are not strongly affected by observer (n.s. `person` term and small mean square), and the intra-species correlation is decent. Now for demography scores:
+
+```{r echo = TRUE}
+dem_m1 <- lm(Demography ~ Person + Species, data = multi)
+anova(dem_m1)
+summary(dem_m1)
+qplot(resid(dem_m1), 
+      geom = "histogram", 
+      xlab = "Residuals",
+      bins = 5) + theme_hc()
+
+ICC_thr <- ICCest(x = Species, y = Demography, data = multi)
+ICC_thr
+```
+
+The `person` term is statistically significant for demography scores, but the within-species correlations are stronger than for threat scores.
+
+```{r echo = FALSE, fig.width = 8, fig.height = 6}
+tmp <- data.frame(species = c(multi$Species, multi$Species),
+                  person = c(multi$Person, multi$Person),
+                  category = c(rep("Threat", length(multi$Person)),
+                               rep("Demography", length(multi$Person))),
+                  score = c(multi$Threat, multi$Demography))
+
+var_plot <- ggplot(data = tmp, aes(x = species, y = score)) +
+                geom_violin(fill = "gray87", colour = "gray87") +
+                geom_jitter(height = 0.05,
+                            width = 0.4,
+                            size = 3,
+                            alpha = 0.8,
+                            aes(colour = person)) +
+                facet_grid(. ~ category) +
+                scale_color_viridis(discrete = TRUE) +
+                coord_flip() +
+                labs(x = "", y = "\nScore\n") +
+                theme_hc() +
+                theme(axis.text.y = element_text(size = 8))
+var_plot
+```

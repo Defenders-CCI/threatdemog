@@ -1,0 +1,25 @@
+Package: threatdemog
+Type: Package
+Title: Analysis of Threat and Demography Scoring
+Version: 0.1.0
+Author: J. Malcom
+Maintainer: J. Malcom <jmalcom@defenders.org>
+Description: Analyses of scores for the threat status and demographic status of
+    imperiled species. There are two analyses to illustrate the key used to
+    generate the scores. First, we evaluate whether US Fish and Wildlife Service
+    recommendations for status changes under the ESA are consistent with threat
+    and demographic status scores. Second, we analyze scores from a set of 54
+    ESA-listed species from Florida, and evaluate the repeatability of scores
+    across different scorers.
+License: GPL-2
+LazyData: TRUE
+Suggests:
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Imports:
+    AICcmodavg,
+    grid,
+    MASS,
+    nnet
+RoxygenNote: 5.0.1

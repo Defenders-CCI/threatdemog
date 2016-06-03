@@ -10,8 +10,11 @@ vignette: >
 ---
 
 ```{r setup, include=TRUE}
+library(ggplot2)
+library(ggthemes)
 library(threatdemog)
 load("../data/FWS_changes.rda")
+load("../data/classification_data.rda")
 ```
 
 ## Analysis 1
@@ -79,6 +82,66 @@ cat("p-values:\n")
 thr_demo_p
 ```
 
+We can plot the data by FWS recommendation and threat and demography scores to 'see' how things shake out:
+
+```{r echo = FALSE, fig.width=7, fig.align="center"}
+change$tmp_stat_cat <- ifelse(change$status_cat == "Degrade",
+                                   "Uplist",
+                                   ifelse(change$status_cat == "Improve",
+                                          "Down- or de-list",
+                                          "No change"))
+change$tmp_stat_cat <- as.factor(change$tmp_stat_cat)
+change$tmp_stat_cat <- relevel(change$tmp_stat_cat, ref="No change")
+
+aplot <- ggplot(change, aes(tmp_stat_cat, Threat_allev)) +
+         geom_boxplot(outlier.shape=NA, alpha=0.5) +
+         geom_jitter(alpha=0.3, size=4,
+                     position=position_jitter(height=0.05, width=0.5)) +
+         labs(x="\nFWS status change recommendation",
+              y="",
+              title="Threats\n") + 
+         theme_minimal(base_size=14) +
+         theme(axis.text.x=element_text(vjust=1.5),
+               axis.ticks=element_blank(),
+               text=element_text(size=14, family="Open Sans"),
+               legend.position="none")
+
+bplot <- ggplot(change, aes(tmp_stat_cat, Improve_demo)) +
+         geom_boxplot(outlier.shape=NA, alpha=0.5) +
+         geom_jitter(alpha=0.3, size=4,
+                     position=position_jitter(height=0.05, width=0.4)) +
+         labs(x="\n",
+              y="",
+              title="Demography\n") + 
+         theme_minimal(base_size=14) +
+         theme(axis.text.x=element_text(vjust=1.5),
+               axis.ticks=element_blank(),
+               text=element_text(size=14, family="Open Sans"),
+               legend.position="none")
+
+cplot <- ggplot(change, aes(tmp_stat_cat, combined_components)) +
+         geom_boxplot(outlier.shape=NA, alpha=0.5) +
+         geom_jitter(alpha=0.3, size=4,
+                     position=position_jitter(height=0.05, width=0.4)) +
+         labs(x="\n",
+              y="Score",
+              title="Threats + Demography\n") + 
+         theme_minimal(base_size=14) +
+         theme(axis.text.x=element_text(vjust=1.5),
+               axis.ticks=element_blank(),
+               text=element_text(size=14, family="Open Sans"),
+               legend.position="none")
+cplot
+bplot
+aplot
+
+# multiplot(cplot, aplot, bplot, cols=3)
+```
+
+This basically comports with the multinomial models: there is some predictability of FWS status change recommendations, but those recommendations don't always seem to be consistent with threats and demography individually.
+
+------------
+
 ------------
 
 ##### Discriminant function analysis
@@ -124,5 +187,26 @@ The LDA model using threat and demography scores as separate predictors has the 
 t(both_comps$marg_tab)
 ```
 
-The species FWS has not recommended for a status change are the species most likely to have threat or demographic change scores that indicate a change is happening.
+The species FWS has not recommended for a status change are the species most likely to have threat or demographic change scores that indicate a change is happening. We can plot the cross-classifications to get another view:
 
+```{r echo = FALSE, fig.align="center", fig.width=7, fig.height=4}
+lda_class$Model <- paste0("Model ", lda_class$Model)
+lda_class$Pct_cross <- paste0(lda_class$Pct_cross)
+
+LDA_plot2 <- ggplot(data=lda_class, aes(x=classify, y=N_cross, fill=factor(col))) +
+             geom_bar(stat="identity") +
+             geom_text(y=26, aes(label=Pct_cross), size=3, colour="gray40") +
+             scale_fill_manual(values=c('#0A4783', 'darkolivegreen4', '#f49831'),
+                               labels=c("overprotect", "consistent", "underprotect"),
+                               name="") +
+             facet_grid(Model ~ FWS_rec) +
+             ylim(0, 27) +
+             labs(x = "\nLDA classification",
+                  y = "# species classified\nper FWS x LDA category\n",
+                  title = "FWS status change recommendation") +
+             theme_bw() +
+             theme(text=element_text(size=12, family="Open Sans"),
+                   panel.background=element_rect(fill="white"))
+LDA_plot2
+
+```

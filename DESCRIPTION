@@ -20,6 +20,9 @@ VignetteBuilder: knitr
 Imports:
     AICcmodavg,
     grid,
+    ICC,
     MASS,
-    nnet
+    nnet,
+    pastecs,
+    viridis
 RoxygenNote: 5.0.1

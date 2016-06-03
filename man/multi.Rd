@@ -4,7 +4,7 @@
 \name{multi}
 \alias{multi}
 \title{Threat and demography scores from multiple scorers.}
-\format{A data frame with 50 rows and 4 variables
+\format{A data frame with 54 observations and 4 variables
 \describe{
 \item{\code{Person}}{Individual who generated the scores}
 \item{\code{Species}}{The species that was scored}

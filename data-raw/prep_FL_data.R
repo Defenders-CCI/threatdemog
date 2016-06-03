@@ -1,19 +1,4 @@
-# Prep the multi-person FL spp. scoring data.
-# Copyright (c) 2016 Defenders of Wildlife, jmalcom@defenders.org
-
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, see <http://www.gnu.org/licenses/>.
-#
+# Prep the score data for all Florida species.
 
 FL_all <- readxl::read_excel("data-raw/FL_scores_all_spp.xlsx")
 head(FL_all)
@@ -21,5 +6,4 @@ dim(FL_all)
 FL_all$Threat <- as.numeric(FL_all$Threat)
 FL_all$Demography <- as.numeric(FL_all$Demography)
 
-save(FL_all, file = "data/FL_scores_all.rda")
-
+devtools::use_data(FL_all, overwrite = TRUE)

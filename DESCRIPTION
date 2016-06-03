@@ -13,16 +13,18 @@ Description: Analyses of scores for the threat status and demographic status of
     across different scorers.
 License: GPL-2
 LazyData: TRUE
+Depends: R (>= 2.10)
 Suggests:
-    knitr,
-    rmarkdown
-VignetteBuilder: knitr
-Imports:
     AICcmodavg,
-    grid,
+    ggplot2,
+    ggthemes,
     ICC,
+    knitr,
     MASS,
     nnet,
     pastecs,
-    viridis
+    viridis,
+    rmarkdown
+VignetteBuilder: knitr
+Imports: grid
 RoxygenNote: 5.0.1

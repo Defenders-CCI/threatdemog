@@ -1,27 +1,11 @@
----
-title: "Threat and Demography Scores, Analysis 1"
-author: "Jacob Malcom, Whitney Webber, Ya-Wei Li"
-date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Vignette Title}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
----
-
-```{r setup, include = FALSE}
+## ----setup, include=TRUE-------------------------------------------------
 library(ggplot2)
 library(ggthemes)
 library(threatdemog)
-```
+load("../data/FWS_changes.rda")
+load("../data/classification_data.rda")
 
-## Are FWS's current status metrics sufficient for accurately reflecting the conservation status of ESA-listed species?
-
-### Multinomial models
-
-First, a naive model that assumes the response variable is the threat or demography score, even though this _implies_ causality flows the opposite direction.
-
-```{r echo=TRUE}
+## ----echo=TRUE-----------------------------------------------------------
 # Threats and demography by status change
 amod <- lm(change$Threat_allev ~ change$status_cat + 0)
 summary(amod)
@@ -32,12 +16,9 @@ summary(bmod)
 cmod <- lm(change$combined_components ~ change$status_cat + 0)
 summary(cmod)
 
-```
 
-But the response is actually FWS's recommended status change, which should be a function of threat and demographic status. This requires using multinomial models. Because we are interested in the relationship between threat and demography scores individually and combined, we consider four models:
-
-```{r echo=TRUE}
-change$status_cat <- relevel(factor(change$status_cat), ref="No Change")
+## ----echo=TRUE-----------------------------------------------------------
+change$status_cat <- relevel(change$status_cat, ref="No Change")
 combo_mod <- nnet::multinom(status_cat ~ 0 + combined_components, 
                             data = change,
                             trace = FALSE)
@@ -56,31 +37,22 @@ thr_demo_mod <- nnet::multinom(status_cat ~ 0 + Threat_allev + Improve_demo,
 thr_demo_p <- get_multinom_p(thr_demo_mod)
 
 AICcmodavg::aictab(list(combo_mod, thr_mod, demo_mod, thr_demo_mod))
-```
 
-Model 1 (threat and demography scores added for a single predictor) is the most parsimonious model given the data. The details of the model are:
-
-```{r echo = FALSE}
+## ----echo = FALSE--------------------------------------------------------
 summary(combo_mod)
 
 # cat(paste0("p-values: ", thr_p[,1]))
 cat("p-values:\n")
 combo_p
-```
 
-While more parsimonious, model 4 (threat and demography scores as separate predictors) is nearly as good a fit with a deltaAICc of 3.61. Model 4 has K = 4 vs. K = 2 for model 1; with 2 AIC units added per parameter, this means the model fit is essentially the same excepting the additional parameters. Because model 1 does not allow administrators to determine threat vs. demographic status independently, we think model 4 is better from a useability standpoint if not strictly statistically better. The summary for model 4 is:
-
-```{r echo = FALSE}
+## ----echo = FALSE--------------------------------------------------------
 summary(thr_demo_mod)
 
 # cat(paste0("p-values: ", thr_p[,1]))
 cat("p-values:\n")
 thr_demo_p
-```
 
-We can plot the data by FWS recommendation and threat and demography scores to 'see' how things shake out:
-
-```{r echo = FALSE, fig.width=7, fig.align="center"}
+## ----echo = FALSE, fig.width=7, fig.align="center"-----------------------
 change$tmp_stat_cat <- ifelse(change$status_cat == "Degrade",
                                    "Uplist",
                                    ifelse(change$status_cat == "Improve",
@@ -132,17 +104,8 @@ bplot
 aplot
 
 # multiplot(cplot, aplot, bplot, cols=3)
-```
 
-This basically comports with the multinomial models: there is some predictability of FWS status change recommendations, but those recommendations don't always seem to be consistent with threats and demography individually.
-
-------------
-
-### Discriminant function analysis
-
-The second evaluation of whether FWS's status change recommendations are consistent with threat and demography change scores is done with discriminant function analysis (or linear discriminant analysis). We consider the same four model structures as with the multinomial models.
-
-```{r echo = TRUE}
+## ----echo = TRUE---------------------------------------------------------
 dfa_combo <- MASS::lda(status_cat ~ combined_components,
                        data = change,
                        na.action = "na.omit",
@@ -173,17 +136,11 @@ consists <- c(combo = combo_comps$consistency,
               demography = demog_comps$consistency)
 
 consists
-```
 
-The LDA model using threat and demography scores as separate predictors has the highest consistency. To see the (mis-)classifications, with FWS's assignment in the columns and the assignment expected given the scores in rows, we have:
-
-```{r echo = FALSE}
+## ----echo = FALSE--------------------------------------------------------
 t(both_comps$marg_tab)
-```
 
-The species FWS has not recommended for a status change are the species most likely to have threat or demographic change scores that indicate a change is happening. We can plot the cross-classifications to get another view:
-
-```{r echo = FALSE, fig.align="center", fig.width=7, fig.height=4}
+## ----echo = FALSE, fig.align="center", fig.width=7, fig.height=4---------
 lda_class$Model <- paste0("Model ", lda_class$Model)
 lda_class$Pct_cross <- paste0(lda_class$Pct_cross)
 
@@ -203,4 +160,4 @@ LDA_plot2 <- ggplot(data=lda_class, aes(x=classify, y=N_cross, fill=factor(col))
                    panel.background=element_rect(fill="white"))
 LDA_plot2
 
-```
+

@@ -4,7 +4,7 @@
 \name{lda_class}
 \alias{lda_class}
 \title{Data from LDA classification of FWS status changes and threat & demography scores.}
-\format{A data frame with 36 rows and 6 variables
+\format{A data frame with 36 observations and 6 variables
 \describe{
 \item{\code{Model}}{Which of four models gave these results}
 \item{\code{classify}}{The LDA-based classification}

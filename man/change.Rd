@@ -4,7 +4,7 @@
 \name{change}
 \alias{change}
 \title{Threat and demography scores from Analysis 1.}
-\format{A data frame with NNN rows and 4 variables
+\format{A data frame with NNN observations and 4 variables
 \describe{
 \item{\code{Species}}{The species that was scored}
 \item{\code{Threat_allev}}{The score for the threat change status}

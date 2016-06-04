@@ -42,20 +42,23 @@ combo_mod <- nnet::multinom(status_cat ~ 0 + combined_components,
                             data = change,
                             trace = FALSE)
 combo_p <- get_multinom_p(combo_mod)
-thr_mod <- nnet::multinom(status_cat ~ 0 + Threat_allev, 
-                          data = change,
-                          trace = FALSE)
-thr_p <- get_multinom_p(thr_mod)
-demo_mod <- nnet::multinom(status_cat ~ 0 + Improve_demo, 
-                           data = change,
-                           trace = FALSE)
-demo_p <- get_multinom_p(demo_mod)
+
 thr_demo_mod <- nnet::multinom(status_cat ~ 0 + Threat_allev + Improve_demo, 
                                data = change,
                                trace = FALSE)
 thr_demo_p <- get_multinom_p(thr_demo_mod)
 
-AICcmodavg::aictab(list(combo_mod, thr_mod, demo_mod, thr_demo_mod))
+thr_mod <- nnet::multinom(status_cat ~ 0 + Threat_allev, 
+                          data = change,
+                          trace = FALSE)
+thr_p <- get_multinom_p(thr_mod)
+
+demo_mod <- nnet::multinom(status_cat ~ 0 + Improve_demo, 
+                           data = change,
+                           trace = FALSE)
+demo_p <- get_multinom_p(demo_mod)
+
+AICcmodavg::aictab(list(combo_mod, thr_demo_mod, thr_mod, demo_mod))
 ```
 
 Model 1 (threat and demography scores added for a single predictor) is the most parsimonious model given the data. The details of the model are:

@@ -11,7 +11,7 @@ Description: Analyses of scores for the threat status and demographic status of
     and demographic status scores. Second, we analyze scores from a set of 54
     ESA-listed species from Florida, and evaluate the repeatability of scores
     across different scorers.
-License: GPL-2
+License: BSD_2_clause
 LazyData: TRUE
 Depends: R (>= 2.10)
 Suggests:

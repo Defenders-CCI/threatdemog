@@ -1,0 +1,51 @@
+Person	Species	Threat	Demography
+RC	Pigtoe, oval  (Pleurobema pyriforme)	-1	-1
+RC	Mouse, Perdido Key beach Entire (Peromyscus polionotus trissyllepsis)	0	1
+RC	Manatee, West Indian Entire (Trichechus manatus)	-1	0.5
+RC	Sparrow, Cape Sable seaside Entire (Ammodramus maritimus mirabilis)	-1	-1
+RC	Pigtoe, fuzzy  (Pleurobema strodeanum)	-1	-1
+RC	Snake, Atlantic salt marsh Entire (Nerodia clarkii taeniata)	0.5	NA
+RC	Stork, wood AL, FL, GA, MS, NC, SC (Mycteria americana)	0	1
+RC	Woodrat, Key Largo Entire (Neotoma floridana smalli)	-1	-1
+RC	bat, Florida bonneted  (Eumops floridanus)	-1	-1
+RC	Darter, Okaloosa Entire (Etheostoma okaloosae)	1	0
+YL	Pigtoe, oval  (Pleurobema pyriforme)	-1	0
+YL	Mouse, Perdido Key beach Entire (Peromyscus polionotus trissyllepsis)	-0.5	0.5
+YL	Manatee, West Indian Entire (Trichechus manatus)	0.5	1
+YL	Sparrow, Cape Sable seaside Entire (Ammodramus maritimus mirabilis)	-0.5	0
+YL	Pigtoe, fuzzy  (Pleurobema strodeanum)	-1	-1
+YL	Snake, Atlantic salt marsh Entire (Nerodia clarkii taeniata)	0.5	NA
+YL	Stork, wood AL, FL, GA, MS, NC, SC (Mycteria americana)	0.5	1
+YL	Woodrat, Key Largo Entire (Neotoma floridana smalli)	-1	-1
+YL	bat, Florida bonneted  (Eumops floridanus)	-1	NA
+YL	Darter, Okaloosa Entire (Etheostoma okaloosae)	1	0
+ED	Pigtoe, oval  (Pleurobema pyriforme)	NA	NA
+ED	Mouse, Perdido Key beach Entire (Peromyscus polionotus trissyllepsis)	-0.5	0.5
+ED	Manatee, West Indian Entire (Trichechus manatus)	0	0.5
+ED	Sparrow, Cape Sable seaside Entire (Ammodramus maritimus mirabilis)	-0.5	-1
+ED	Pigtoe, fuzzy  (Pleurobema strodeanum)	-0.5	-0.5
+ED	Snake, Atlantic salt marsh Entire (Nerodia clarkii taeniata)	0	NA
+ED	Stork, wood AL, FL, GA, MS, NC, SC (Mycteria americana)	0	1
+ED	Woodrat, Key Largo Entire (Neotoma floridana smalli)	-0.5	-1
+ED	bat, Florida bonneted  (Eumops floridanus)	-1	NA
+ED	Darter, Okaloosa Entire (Etheostoma okaloosae)	0.5	1
+KC	Pigtoe, oval  (Pleurobema pyriforme)	0	0
+KC	Mouse, Perdido Key beach Entire (Peromyscus polionotus trissyllepsis)	0	1
+KC	Manatee, West Indian Entire (Trichechus manatus)	0.5	0.5
+KC	Sparrow, Cape Sable seaside Entire (Ammodramus maritimus mirabilis)	0	-0.5
+KC	Pigtoe, fuzzy  (Pleurobema strodeanum)	0	0.5
+KC	Snake, Atlantic salt marsh Entire (Nerodia clarkii taeniata)	-0.5	NA
+KC	Stork, wood AL, FL, GA, MS, NC, SC (Mycteria americana)	0	1
+KC	Woodrat, Key Largo Entire (Neotoma floridana smalli)	-1	-1
+KC	bat, Florida bonneted  (Eumops floridanus)	-1	NA
+KC	Darter, Okaloosa Entire (Etheostoma okaloosae)	0.5	0.5
+JM	Pigtoe, oval  (Pleurobema pyriforme)	-1	-1
+JM	Mouse, Perdido Key beach Entire (Peromyscus polionotus trissyllepsis)	1	0
+JM	Manatee, West Indian Entire (Trichechus manatus)	1	-0.5
+JM	Sparrow, Cape Sable seaside Entire (Ammodramus maritimus mirabilis)	-1	-1
+JM	Pigtoe, fuzzy  (Pleurobema strodeanum)	-1	-1
+JM	Snake, Atlantic salt marsh Entire (Nerodia clarkii taeniata)	-1	-0.5
+JM	Stork, wood AL, FL, GA, MS, NC, SC (Mycteria americana)	1	0.5
+JM	Woodrat, Key Largo Entire (Neotoma floridana smalli)	-1	-1
+JM	bat, Florida bonneted  (Eumops floridanus)	-1	-1
+JM	Darter, Okaloosa Entire (Etheostoma okaloosae)	1	1

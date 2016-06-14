@@ -1,0 +1,37 @@
+Model	classify	FWS_rec	Pct_cross	N_cross	col
+1	Declining	Declining	40	4	green
+1	Improving	Declining	0	0	blue
+1	No Change	Declining	60	6	blue
+1	Declining	Improving	3.7	1	orange
+1	Improving	Improving	88.9	24	green
+1	No Change	Improving	7.4	2	orange
+1	Declining	No Change	26.7	4	orange
+1	Improving	No Change	13.3	2	blue
+1	No Change	No Change	60	9	green
+2	Declining	Declining	90	9	green
+2	Improving	Declining	0	0	blue
+2	No Change	Declining	10	1	blue
+2	Declining	Improving	7.4	2	orange
+2	Improving	Improving	88.9	24	green
+2	No Change	Improving	3.7	1	orange
+2	Declining	No Change	26.7	4	orange
+2	Improving	No Change	13.3	2	blue
+2	No Change	No Change	60	9	green
+3	Declining	Declining	30	3	green
+3	Improving	Declining	0	0	blue
+3	No Change	Declining	70	7	blue
+3	Declining	Improving	3.7	1	orange
+3	Improving	Improving	74.1	20	green
+3	No Change	Improving	22.2	6	orange
+3	Declining	No Change	13.3	2	orange
+3	Improving	No Change	13.3	2	blue
+3	No Change	No Change	73.3	11	green
+4	Declining	Declining	90	9	green
+4	Improving	Declining	10	1	blue
+4	No Change	Declining	0	0	blue
+4	Declining	Improving	7.4	2	orange
+4	Improving	Improving	77.8	21	green
+4	No Change	Improving	14.8	4	orange
+4	Declining	No Change	20	3	orange
+4	Improving	No Change	66.7	10	blue
+4	No Change	No Change	13.3	2	green
